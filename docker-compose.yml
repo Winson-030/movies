@@ -33,6 +33,8 @@ services:
     restart: on-failure
     depends_on:
       - mongodb
+    links:
+      - mongodb
   
   frontend:
     build: 
