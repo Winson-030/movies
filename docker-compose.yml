@@ -12,29 +12,35 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     restart: on-failure
+    networks:
+      - movie_network
     # ports:
     #   - "27017:27017"
     volumes:
-      - ./data:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./db/data:/data/db
+      - ./db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
 
   backend:
     build: 
-      context: ../backend
+      context: ./backend
       dockerfile: Dockerfile
     container_name: backend
     hostname: backend
-    ports:
-      - "9090:9090"
+    networks:
+      - movie_network
+    # ports:
+    #   - "9090:9090"
     restart: on-failure
     depends_on:
       - mongodb
   
   frontend:
     build: 
-      context: ../frontend
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
+    networks:
+      - movie_network
     ports:
       - "80:80"
     restart: on-failure
@@ -44,7 +50,5 @@ services:
       - backend
     
 networks:
-  default:
-    name: dev-1
-    external: true
+  movie_network:
     
