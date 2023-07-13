@@ -28,3 +28,6 @@ cd movies
 docker compose up -d
 ```
 
+### CAUTION!!!
+
+This project is just a demo of learning Springboot, React.js, Mongodb and Docker compose. Don't delpoy this in production environment.
